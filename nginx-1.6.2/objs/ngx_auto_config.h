@@ -1,4 +1,4 @@
-#define NGX_CONFIGURE " --prefix=/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin"
+#define NGX_CONFIGURE " --add-module=src/ngx_http_hello_world_module/ --prefix=/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin/"
 
 #ifndef NGX_COMPILER
 #define NGX_COMPILER  "gcc 4.1.2 20071124 (Red Hat 4.1.2-42)"
@@ -304,7 +304,7 @@
 
 
 #ifndef NGX_PREFIX
-#define NGX_PREFIX  "/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/"
+#define NGX_PREFIX  "/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//"
 #endif
 
 

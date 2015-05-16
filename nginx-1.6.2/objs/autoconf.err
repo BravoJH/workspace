@@ -11,7 +11,7 @@ checking for gcc -pipe switch
 ----------------------------------------
 checking for gcc builtin atomic operations
 
-/tmp/ccI4ZFs3.o: In function `main':
+/tmp/ccY3eQrk.o: In function `main':
 autotest.c:(.text+0x2f): undefined reference to `__sync_bool_compare_and_swap_4'
 autotest.c:(.text+0x52): undefined reference to `__sync_fetch_and_add_4'
 collect2: ld returned 1 exit status
@@ -231,7 +231,7 @@ cc -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -o objs/autotest objs/autotest.c
 ----------------------------------------
 checking for crypt()
 
-/tmp/ccoNQfAi.o: In function `main':
+/tmp/cciW0zcn.o: In function `main':
 autotest.c:(.text+0x21): undefined reference to `crypt'
 collect2: ld returned 1 exit status
 ----------
@@ -339,7 +339,7 @@ checking for statvfs()
 ----------------------------------------
 checking for dlopen()
 
-/tmp/ccyywBOs.o: In function `main':
+/tmp/cciS4rnR.o: In function `main':
 autotest.c:(.text+0x21): undefined reference to `dlopen'
 collect2: ld returned 1 exit status
 ----------
@@ -554,7 +554,7 @@ checking for time_t size
 ----------------------------------------
 checking for setproctitle()
 
-/tmp/cc6EQnvy.o: In function `main':
+/tmp/ccwF0aVG.o: In function `main':
 autotest.c:(.text+0x19): undefined reference to `setproctitle'
 collect2: ld returned 1 exit status
 ----------
@@ -583,7 +583,7 @@ checking for pwrite()
 ----------------------------------------
 checking for sys_nerr
 
-/tmp/ccKLt623.o: In function `main':
+/tmp/ccwozbZH.o: In function `main':
 autotest.c:(.text+0x12): warning: `sys_nerr' is deprecated; use `strerror' or `strerror_r' instead
 132
 ----------------------------------------
@@ -613,7 +613,7 @@ checking for System V shared memory
 ----------------------------------------
 checking for POSIX semaphores
 
-/tmp/ccAyhDxK.o: In function `main':
+/tmp/cc2grM79.o: In function `main':
 autotest.c:(.text+0x28): undefined reference to `sem_init'
 autotest.c:(.text+0x41): undefined reference to `sem_destroy'
 collect2: ld returned 1 exit status

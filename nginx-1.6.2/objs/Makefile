@@ -98,6 +98,9 @@ HTTP_INCS = -I src/http \
 	-I src/http/modules
 
 
+ADDON_DEPS = $(CORE_DEPS)  $(HTTP_DEPS)
+
+
 objs/nginx:	objs/src/core/nginx.o \
 	objs/src/core/ngx_log.o \
 	objs/src/core/ngx_palloc.o \
@@ -206,6 +209,7 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/http/modules/ngx_http_upstream_ip_hash_module.o \
 	objs/src/http/modules/ngx_http_upstream_least_conn_module.o \
 	objs/src/http/modules/ngx_http_upstream_keepalive_module.o \
+	objs/addon/ngx_http_hello_world_module/ngx_http_hello_world_module.o \
 	objs/ngx_modules.o
 
 	$(LINK) -o objs/nginx \
@@ -317,6 +321,7 @@ objs/nginx:	objs/src/core/nginx.o \
 	objs/src/http/modules/ngx_http_upstream_ip_hash_module.o \
 	objs/src/http/modules/ngx_http_upstream_least_conn_module.o \
 	objs/src/http/modules/ngx_http_upstream_keepalive_module.o \
+	objs/addon/ngx_http_hello_world_module/ngx_http_hello_world_module.o \
 	objs/ngx_modules.o \
 	-lpthread -lcrypt -lpcre -lcrypto -lcrypto -lz
 	
@@ -1085,50 +1090,57 @@ objs/src/http/modules/ngx_http_upstream_keepalive_module.o:	$(CORE_DEPS) $(HTTP_
 		src/http/modules/ngx_http_upstream_keepalive_module.c
 
 
+objs/addon/ngx_http_hello_world_module/ngx_http_hello_world_module.o:	$(ADDON_DEPS) \
+	src/ngx_http_hello_world_module//ngx_http_hello_world_module.c
+	$(CC) -c $(CFLAGS)  $(ALL_INCS) \
+		-o objs/addon/ngx_http_hello_world_module/ngx_http_hello_world_module.o \
+		src/ngx_http_hello_world_module//ngx_http_hello_world_module.c
+
+
 manpage:	objs/nginx.8
 
 objs/nginx.8:	man/nginx.8 objs/ngx_auto_config.h
-	sed -e "s|%%PREFIX%%|/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin|" \
-		-e "s|%%PID_PATH%%|/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/logs/nginx.pid|" \
-		-e "s|%%CONF_PATH%%|/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/nginx.conf|" \
-		-e "s|%%ERROR_LOG_PATH%%|/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/logs/error.log|" \
+	sed -e "s|%%PREFIX%%|/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin/|" \
+		-e "s|%%PID_PATH%%|/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//logs/nginx.pid|" \
+		-e "s|%%CONF_PATH%%|/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/nginx.conf|" \
+		-e "s|%%ERROR_LOG_PATH%%|/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//logs/error.log|" \
 		< man/nginx.8 > $@
 
 install:	objs/nginx 		
-	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin' || mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin'
+	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin/' || mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin/'
 
-	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/sbin' 		|| mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/sbin'
-	test ! -f '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/sbin/nginx' 		|| mv '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/sbin/nginx' 			'$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/sbin/nginx.old'
-	cp objs/nginx '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/sbin/nginx'
+	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//sbin' 		|| mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//sbin'
+	test ! -f '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//sbin/nginx' 		|| mv '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//sbin/nginx' 			'$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//sbin/nginx.old'
+	cp objs/nginx '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//sbin/nginx'
 
-	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf' 		|| mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf'
+	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf' 		|| mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf'
 
-	cp conf/koi-win '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf'
-	cp conf/koi-utf '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf'
-	cp conf/win-utf '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf'
+	cp conf/koi-win '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf'
+	cp conf/koi-utf '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf'
+	cp conf/win-utf '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf'
 
-	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/mime.types' 		|| cp conf/mime.types '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf'
-	cp conf/mime.types '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/mime.types.default'
+	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/mime.types' 		|| cp conf/mime.types '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf'
+	cp conf/mime.types '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/mime.types.default'
 
-	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/fastcgi_params' 		|| cp conf/fastcgi_params '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf'
-	cp conf/fastcgi_params 		'$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/fastcgi_params.default'
+	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/fastcgi_params' 		|| cp conf/fastcgi_params '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf'
+	cp conf/fastcgi_params 		'$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/fastcgi_params.default'
 
-	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/fastcgi.conf' 		|| cp conf/fastcgi.conf '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf'
-	cp conf/fastcgi.conf '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/fastcgi.conf.default'
+	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/fastcgi.conf' 		|| cp conf/fastcgi.conf '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf'
+	cp conf/fastcgi.conf '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/fastcgi.conf.default'
 
-	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/uwsgi_params' 		|| cp conf/uwsgi_params '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf'
-	cp conf/uwsgi_params 		'$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/uwsgi_params.default'
+	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/uwsgi_params' 		|| cp conf/uwsgi_params '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf'
+	cp conf/uwsgi_params 		'$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/uwsgi_params.default'
 
-	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/scgi_params' 		|| cp conf/scgi_params '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf'
-	cp conf/scgi_params 		'$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/scgi_params.default'
+	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/scgi_params' 		|| cp conf/scgi_params '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf'
+	cp conf/scgi_params 		'$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/scgi_params.default'
 
-	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/nginx.conf' 		|| cp conf/nginx.conf '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/nginx.conf'
-	cp conf/nginx.conf '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/conf/nginx.conf.default'
+	test -f '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/nginx.conf' 		|| cp conf/nginx.conf '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/nginx.conf'
+	cp conf/nginx.conf '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//conf/nginx.conf.default'
 
-	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/logs' 		|| mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/logs'
+	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//logs' 		|| mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//logs'
 
-	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/logs' || 		mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/logs'
+	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//logs' || 		mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//logs'
 
-	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/html' 		|| cp -R html '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin'
+	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//html' 		|| cp -R html '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin/'
 
-	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/logs' || 		mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/logs'
+	test -d '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//logs' || 		mkdir -p '$(DESTDIR)/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//logs'

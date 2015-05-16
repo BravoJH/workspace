@@ -12,10 +12,10 @@ install:
 	$(MAKE) -f objs/Makefile install
 
 upgrade:
-	/mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/sbin/nginx -t
+	/mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//sbin/nginx -t
 
-	kill -USR2 `cat /mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/logs/nginx.pid`
+	kill -USR2 `cat /mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//logs/nginx.pid`
 	sleep 1
-	test -f /mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/logs/nginx.pid.oldbin
+	test -f /mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//logs/nginx.pid.oldbin
 
-	kill -QUIT `cat /mnt/hgfs/dworkspace/workspace/nginx-1.6.2/bin/logs/nginx.pid.oldbin`
+	kill -QUIT `cat /mnt/hgfs/dworkspace/git/nginx-1.6.2/bin//logs/nginx.pid.oldbin`
