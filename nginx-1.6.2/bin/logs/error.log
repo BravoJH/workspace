@@ -1,0 +1,2 @@
+2015/05/15 10:34:28 [emerg] 18244#0: bind() to 0.0.0.0:80 failed (13: Permission denied)
+2015/05/15 10:36:01 [error] 18322#0: *1 open() "./html/favicon.ico" failed (2: No such file or directory), client: 192.168.2.12, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "192.168.2.13:8000"
